@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8" />
+    <title>SHOOTING GAME</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <canvas id="canvas" width="1200" height="680"></canvas>
+    <script src="main.js"></script>
+
+    <audio src="poka03.mp3" id="sound"></audio>
+    <audio src="jajan.mp3" id="clear"></audio>
+    <audio src="zannense.mp3" id="over"></audio>
+    <audio src="bgm.mp3" id="bgm"></audio>
+    <audio src="bomb.mp3" id="bomb"></audio>
+    <audio src="small_explosion1.mp3" id="baan"></audio>
+    <audio src="short_bomb.mp3" id="short"></audio>
+    <audio src="boss.mp3" id="boss"></audio>
+
+    <img id="machine" src="Own machine.gif" style="display:none" />
+    <img id="ailenmachine" src="ailenmachine.gif" style="display:none" />
+    <img id="$ailenmachine" src="$ailenmachine.gif" style="display:none" />
+    <img id="bossmachine" src="bossmachine.gif" style="display:none" />
+
+    <h1>ルール</h1>
+    <p>← → または A D キーで操作</p>
+    <p>SPACE キーで弾を発射</p>
+    <p>ENTER キーでリスタート</p>
+    <p>~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~</p>
+    <p>左下のゲージがいっぱいになると色がオレンジになって一時的に弾が打てなくなります。</p>
+    <p id="aitem">アイテムを取ると攻撃力と体力が1上がります。（上限 6）</p>
+    <p>初めの2匹の敵を倒すとボスが出て来ます。</p>
+    <p>ボスの体力は60でたまに回復します。</p>
+    <p>ボスを倒すとクリア！！</p>
+</body>
+
+</html>
