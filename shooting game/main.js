@@ -157,8 +157,6 @@ function drawBall() {
             if (ball[j].y == 100) {
                 if ($ailenscore != 0) {
                     $ailenscore--;
-                    document.getElementById("bomb").play();
-                    document.getElementById("bomb").volume = 0.4;
 
                 }
             }
@@ -169,8 +167,7 @@ function drawBall() {
 
                 if (ailenscore != 0) {
                     ailenscore--;
-                    document.getElementById("bomb").play();
-                    document.getElementById("bomb").volume = 0.4;
+
                 }
             }
         }
@@ -180,8 +177,7 @@ function drawBall() {
 
                 if (bossscore != 0) {
                     bossscore--;
-                    document.getElementById("bomb").play();
-                    document.getElementById("bomb").volume = 0.4;
+
                 }
             }
         }
@@ -198,8 +194,7 @@ function drawAilenBall() {
         if (ailenball[i].x < mx + mw && ailenball[i].x > mx - ailenball[i].w) {
             if (ailenball[i].y == canvas.height - 100) {
                 ailenflag = true;
-                document.getElementById("short").play();
-                document.getElementById("short").volume = 0.4;
+
                 times = 80;
                 timesflag = false;
             }
@@ -216,8 +211,7 @@ function draw$AilenBall() {
         if ($ailenball[i].x < mx + mw && $ailenball[i].x > mx - $ailenball[i].w) {
             if ($ailenball[i].y == canvas.height - 100) {
                 $ailenflag = true;
-                document.getElementById("short").play();
-                document.getElementById("short").volume = 0.4;
+
                 times = 80;
                 timesflag = false;
             }
@@ -240,8 +234,7 @@ function drawaitem() {
 
             if (balllength < 6) {
                 balllength++;
-                document.getElementById("sound").play();
-                document.getElementById("sound").volume = 0.4;
+
             }
         }
     }
@@ -271,9 +264,6 @@ function gameend() {
 
 
 function draw() {
-    let bgm = document.getElementById("bgm");
-    bgm.play();
-    bgm.volume = 0.5
 
     context.clearRect(0, 0, canvas.width, canvas.height);
 
@@ -328,9 +318,6 @@ function draw() {
     }
 
     if (ailenscore == 0 && $ailenscore == 0) {
-        bgm.pause();
-        document.getElementById("boss").play();
-        document.getElementById("boss").volume = 0.4;
         bossentry = true;
         ailenscore = -99;
         $ailenscore = -99;
@@ -375,12 +362,6 @@ function draw() {
     if (bossscore == 0) {
         game = "GAME CLEAR";
         endcolor = "yellow";
-        bgm.pause();
-        document.getElementById("boss").pause();
-        document.getElementById("baan").play();
-        document.getElementById("clear").play();
-        document.getElementById("baan").volume = 0.4;
-        document.getElementById("clear").volume = 0.4;
         gameend();
     }
 
@@ -411,12 +392,6 @@ function draw() {
     context.strokeRect(mx - 20, my + mh + 20, 90, 10);
 
     if (balllength == 0) {
-        bgm.pause();
-        document.getElementById("boss").pause();
-        document.getElementById("baan").play();
-        document.getElementById("over").play();
-        document.getElementById("baan").volume = 0.5;
-        document.getElementById("over").volume = 0.5;
         gameend();
     }
 
@@ -463,7 +438,6 @@ function drawbossball() {
         if (bossball[i].x < mx + mw && bossball[i].x > mx - bossball[i].w) {
             if (bossball[i].y == canvas.height - 80) {
                 bossflag = true;
-                document.getElementById("short").play();
             }
         }
     }
