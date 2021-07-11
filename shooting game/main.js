@@ -4,6 +4,7 @@ let canvas = document.getElementById("canvas");
 let context = canvas.getContext("2d");
 
 let aitemflag = false, aitemX = 0, aitemY = -30, sokud = 0.2;
+let tuibiflag = false, tuibiX = 0, tuibiY = -30, tuibisokud = 0.4, tuibi = false, tuibitime = 0;;
 let balllength = 1;
 
 let kaihuku = 0;
@@ -146,7 +147,17 @@ function drawBall() {
     for (let j = 0; j < ball.length; j++) {
         context.fillStyle = "#ff11aa";
         context.fillRect(ball[j].x, ball[j].y, ball[j].w, ball[j].h);
-        ball[j].x += ball[j].dx;
+
+        if (!tuibi) {
+            ball[j].x += ball[j].dx;
+        } else if (tuibi) {
+            if (ball[j].x < bossX) {
+                ball[j].x += 30;
+            } else if (ball[j].x > bossX) {
+                ball[j].x += -30;
+            }
+        }
+
         ball[j].y += ball[j].dy;
 
         if (ball[j].y < 0) {
@@ -167,7 +178,6 @@ function drawBall() {
 
                 if (ailenscore != 0) {
                     ailenscore--;
-
                 }
             }
         }
@@ -177,7 +187,6 @@ function drawBall() {
 
                 if (bossscore != 0) {
                     bossscore--;
-
                 }
             }
         }
@@ -194,7 +203,6 @@ function drawAilenBall() {
         if (ailenball[i].x < mx + mw && ailenball[i].x > mx - ailenball[i].w) {
             if (ailenball[i].y == canvas.height - 100) {
                 ailenflag = true;
-
                 times = 80;
                 timesflag = false;
             }
@@ -211,7 +219,6 @@ function draw$AilenBall() {
         if ($ailenball[i].x < mx + mw && $ailenball[i].x > mx - $ailenball[i].w) {
             if ($ailenball[i].y == canvas.height - 100) {
                 $ailenflag = true;
-
                 times = 80;
                 timesflag = false;
             }
@@ -234,13 +241,42 @@ function drawaitem() {
 
             if (balllength < 6) {
                 balllength++;
-
             }
         }
     }
     if (aitemY > canvas.height) {
         aitemflag = false;
         aitemY = -30;
+    }
+}
+
+function drawtuibi() {
+    tuibiY += tuibisokud;
+
+    context.fillStyle = "#0ff";
+    context.fillRect(tuibiX, tuibiY, 20, 20);
+
+    if (tuibiY + 20 > my && tuibiY < my + mh) {
+        if (tuibiX + 20 > mx && tuibiX < mx + mw) {
+            tuibiflag = false;
+            tuibiY = -30;
+
+            tuibi = true;
+            times = 4;
+        }
+    }
+    if (tuibiY > canvas.height) {
+        tuibiflag = false;
+        tuibiY = -30;
+    }
+}
+
+function tuibitimer() {
+    tuibitime++;
+
+    if (tuibitime > 5) {
+        tuibi = false;
+        tuibitime = 0;
     }
 }
 
@@ -267,7 +303,7 @@ function draw() {
 
     context.clearRect(0, 0, canvas.width, canvas.height);
 
-    if (pressflag && timesflag) {
+    if (pressflag && timesflag && !tuibi) {
         let a = 0;
 
         for (let i = 0; i < balllength; i++) {
@@ -305,6 +341,7 @@ function draw() {
     context.fillRect(15, canvas.height - 20, times * 2, 15);
     context.strokeStyle = "white";
     context.strokeRect(15, canvas.height - 20, 200, 15);
+
 
     if (!Math.floor(Math.random() * 100) && aitemflag == false) {
         aitemflag = true;
@@ -352,6 +389,37 @@ function draw() {
         context.fillRect(350, 50, bossscore * 10, 10);
         context.strokeStyle = "white";
         context.strokeRect(350, 50, 600, 10);
+
+
+        if (!Math.floor(Math.random() * 100) && tuibiflag == false) {
+            tuibiflag = true;
+            tuibiX = Math.floor(Math.random() * canvas.width);
+            tuibisokud = 0.4;
+        }
+
+        if (tuibiflag == true) {
+            tuibisokud += 0.4;
+            drawtuibi();
+        }
+
+        if (pressflag && timesflag && tuibi) {
+            let a = 0;
+
+            for (let i = 0; i < 1; i++) {
+                ballX = mx + a;
+
+                if (mx < bossX) {
+                    myangle = 15;
+                } else if (mx > bossX) {
+                    myangle = -15;
+                } else {
+                    myangle = 0;
+                }
+
+                ballAdd();
+                a += 15;
+            }
+        }
 
         drawbossball();
         drawboss();
@@ -454,3 +522,4 @@ function drawboss() {
 }
 
 let interval = setInterval(draw, 40);
+let timer = setInterval(tuibitimer, 300);
