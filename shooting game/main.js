@@ -65,6 +65,7 @@ class Ball {
 }
 
 let ball = [];
+let tuibiball = [];
 let ailenball = [];
 let $ailenball = [];
 let bossball = [];
@@ -78,6 +79,17 @@ function ballAdd() {
     let b_dy = -20;
     let b = new Ball(b_x, b_y, b_w, b_h, b_dx, b_dy);
     ball.push(b);
+}
+
+function tuibiballAdd() {
+    let b_x = ballX;
+    let b_y = my;
+    let b_w = 5;
+    let b_h = 5;
+    let b_dx = 0;
+    let b_dy = -15;
+    let b = new Ball(b_x, b_y, b_w, b_h, b_dx, b_dy);
+    tuibiball.push(b);
 }
 
 function ailenballAdd() {
@@ -148,16 +160,7 @@ function drawBall() {
         context.fillStyle = "#ff11aa";
         context.fillRect(ball[j].x, ball[j].y, ball[j].w, ball[j].h);
 
-        if (!tuibi) {
-            ball[j].x += ball[j].dx;
-        } else if (tuibi) {
-            if (ball[j].x < bossX) {
-                ball[j].x += 30;
-            } else if (ball[j].x > bossX) {
-                ball[j].x += -30;
-            }
-        }
-
+        ball[j].x += ball[j].dx;
         ball[j].y += ball[j].dy;
 
         if (ball[j].y < 0) {
@@ -168,7 +171,6 @@ function drawBall() {
             if (ball[j].y == 100) {
                 if ($ailenscore != 0) {
                     $ailenscore--;
-
                 }
             }
         }
@@ -192,6 +194,31 @@ function drawBall() {
         }
 
     }
+}
+
+function drawtuibiBall() {
+    for (let j = 0; j < tuibiball.length; j++) {
+        context.fillStyle = "#ff5500";
+        context.fillRect(tuibiball[j].x, tuibiball[j].y, tuibiball[j].w, tuibiball[j].h);
+
+        tuibiball[j].y += tuibiball[j].dy;
+
+        if (tuibiball[j].x < bossX + 30) {
+            tuibiball[j].x += 45;
+        } else if (tuibiball[j].x > bossX + 30) {
+            tuibiball[j].x += -45;
+        }
+
+        if (tuibiball[j].x < (bossX + bossW) && tuibiball[j].x > (bossX - tuibiball[j].w)) {
+            if (tuibiball[j].y == 100) {
+
+                if (bossscore != 0) {
+                    bossscore--;
+                }
+            }
+        }
+    }
+
 }
 
 function drawAilenBall() {
@@ -300,7 +327,6 @@ function gameend() {
 
 
 function draw() {
-
     context.clearRect(0, 0, canvas.width, canvas.height);
 
     if (pressflag && timesflag && !tuibi) {
@@ -325,11 +351,11 @@ function draw() {
     } else if (!timesflag) {
         times -= 1;
     }
-    if (times == 100) {
+    if (times > 100) {
         timesflag = false;
     }
 
-    if (times == 0) {
+    if (times < 0) {
         timesflag = true;
     }
 
@@ -376,14 +402,14 @@ function draw() {
 
         if (bossscore < 50) {
             kaihuku++;
-            if (kaihuku > 200) {
-                bossscore += 10;
+            if (kaihuku > 150 && bossscore < 60) {
+                bossscore += Math.floor(Math.random() * 30);
                 kaihuku = 0;
             }
         }
 
         context.fillStyle = "#4D85B6";
-        context.font = "20px bold italic";
+        context.font = "20px bold";
         context.fillText("ボス", 630, 30);
         context.fillStyle = "rgba(255,0,0)";
         context.fillRect(350, 50, bossscore * 10, 10);
@@ -405,18 +431,12 @@ function draw() {
         if (pressflag && timesflag && tuibi) {
             let a = 0;
 
-            for (let i = 0; i < 1; i++) {
+            times += 10;
+
+            for (let i = 0; i < balllength / 2; i++) {
                 ballX = mx + a;
 
-                if (mx < bossX) {
-                    myangle = 15;
-                } else if (mx > bossX) {
-                    myangle = -15;
-                } else {
-                    myangle = 0;
-                }
-
-                ballAdd();
+                tuibiballAdd();
                 a += 15;
             }
         }
@@ -490,6 +510,10 @@ function draw() {
     }
 
     drawMy();
+
+    if (tuibiball.length > 1) {
+        drawtuibiBall();
+    }
     drawBall();
     drawAilenBall();
     draw$AilenBall();
