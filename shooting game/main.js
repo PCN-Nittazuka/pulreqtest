@@ -402,8 +402,11 @@ function draw() {
 
         if (bossscore < 50) {
             kaihuku++;
-            if (kaihuku > 150 && bossscore < 60) {
+            if (kaihuku > 150) {
                 bossscore += Math.floor(Math.random() * 30);
+                if (bossscore > 60) {
+                    bossscore = 60;
+                }
                 kaihuku = 0;
             }
         }

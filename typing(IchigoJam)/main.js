@@ -12,7 +12,14 @@ let bad = 0;
 let hitsflag = false, hits = 0, point = 30;
 let time = 345;
 let plate = [0, 0, 0, 0, 0];
+let pointflag = false, y, outflag = false;
+let startflag = false;
 
+if (startflag == false) {
+    ctx.font = "28px Bold";
+    ctx.fillText("タイピングゲーム Ichigojamコマンド", 15, 200);
+    ctx.fillText("SPACEかENTERでスタート", 80, 300)
+}
 
 document.addEventListener("keydown", keyDownHandler, false);
 function keyDownHandler(e) {
@@ -24,6 +31,11 @@ function keyDownHandler(e) {
         bad++;
         hits = 0;
     }
+
+    if (e.key == "Enter" || e.keyCode == 32) {
+        startflag = true;
+        time = 345;
+    }
 }
 
 function timer() {
@@ -31,6 +43,12 @@ function timer() {
 }
 
 function loop() {
+    if (startflag == true) {
+        draw();
+    }
+}
+
+function draw() {
     ctx.clearRect(0, 0, canvas.width, canvas.height);
 
     ctx.font = "22px Arial Narrow Bold";
@@ -57,6 +75,7 @@ function loop() {
         hitsflag = false;
     }
 
+
     if (hits == 345) {
         hits = 0;
         score += point * 10;
@@ -65,6 +84,22 @@ function loop() {
             time = 345;
         }
         point += 30;
+        pointflag = true;
+    }
+
+    if (pointflag) {
+        y = 56;
+        pointflag = false;
+        outflag = true;
+    }
+    if (outflag) {
+        ctx.font = "22px Arial Narrow Bold";
+        ctx.fillStyle = "#00f";
+        ctx.fillText("+" + (point - 30), 450, Math.floor(y));
+        y -= 0.2;
+        if (y == -20) {
+            outflag = false;
+        }
     }
 
     ctx.font = "40px Arial Narrow Bold";
@@ -98,6 +133,7 @@ function loop() {
         ctx.fillText("正タイプ数：" + right, 160, 200);
         ctx.fillText("ミスタイプ：" + bad, 160, 250);
         ctx.fillRect(0, 320, canvas.width, 2);
+        ctx.font = "25px Arial Narrow Bold";
         ctx.fillText("２文字：" + plate[0], 20, 400);
         ctx.fillText("３文字：" + plate[1], 180, 400);
         ctx.fillText("４文字：" + plate[2], 340, 400);
